@@ -45,13 +45,13 @@ export default class QrCode extends Component {
     })
 
     return (
-      <div className="guests-qr-code">
+      <div className="guests-qr-code full-height">
         {/* <p>{billingId}</p> */}
         <QRCode
           bgColor="#FFFFFF"
           fgColor="#000000"
           level="Q"
-          style={{ width: 130 }}
+          style={{ width: 130, height:130 }}
           value={url}
         />
         {/* <p>{url}</p> */}

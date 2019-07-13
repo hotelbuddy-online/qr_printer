@@ -9,17 +9,6 @@ import { LoadingScreen } from '../../../common';
 import domtoimage from 'dom-to-image';
 import { strings } from '../../../../data';
 
-// const layouts = [
-//   {
-//     name: 'key fobs',
-//     width: 120,
-//   },
-//   {
-//     name: 'room leaflets',
-//     width: 200,
-//   },
-// ]
-
 export class QrCodes extends Component {
   static propTypes = {
     guests: PropTypes.object.isRequired,
@@ -27,9 +16,9 @@ export class QrCodes extends Component {
   };
 
   render() {
-    const { common, category, optionObj } = this.props;
+    const { common, list, category, optionObj } = this.props;
     const { venue } = common;
-    if (!venue) return <LoadingScreen />
+    if (!list) return <LoadingScreen />
     const { $key: venueId, roomTypes } = venue;
     const { saveToComputer: saveToComputerLbl } = strings[common.language];
 
@@ -45,94 +34,28 @@ export class QrCodes extends Component {
           >{saveToComputerLbl}</Button>
           : []}
 
-        {
-          category && category.main ?
-            <div id="mainQr" className="code">
-              <QrCode
-                venueId={venueId}
-              />
+        <div className="horizontal layout wrap">
+          {list.map(item =>
+            <div className="wrapper vertical layout">
+              <div id="mainQr" className="code">
+                <QrCode id={`billingId_${item.billingId}`}
+                  venueId={venueId}
+                  billingId={item.billingId}
+                />
+              </div>
             </div>
-            : []
-        }
-
-        {
-          category && category.rooms ?
-            <div className="vertical layout">
-              {roomTypes.map((roomType, index) =>
-                <div key={index}>
-                  <Typography variant="h4">{roomType.name}</Typography>
-                  <div className="horizontal layout wrap center-justified">
-                    {roomType.dorms ?
-                      //rooms with numbers assigned
-                      roomType.dorms.map(dorm => {
-                        let out = []
-                        for (let billingId = dorm.bedNumberStart; billingId < (dorm.bedNumberStart + roomType.beds); billingId++) {
-                          out.push(billingId)
-                        }
-                        return (out.map(outId =>
-                          <div id={`billingId_${outId}`} className="code">
-                            <QrCode
-                              venueId={venueId}
-                              billingId={outId}
-                            />
-                          </div>
-                        ))
-                      })
-                      :
-                      // rooms with names
-                      roomType.names.map(billingId =>
-                        <div id={`billingId_${billingId}`} className="code">
-                          <QrCode key={billingId}
-                            venueId={venueId}
-                            billingId={billingId}
-                          />
-                        </div>
-                      )}
-                  </div>
-                </div>
-              )}
-            </div>
-            : []
-        }
-      </div >
+          )}
+        </div>
+      </div>
     );
   }
 
-
   downloadAllToComputer = () => {
-    const { category, common } = this.props;
-    const { venue } = common;
-    const { roomTypes } = venue;
-
-    if (category.main)
-      domtoimage.toJpeg(document.getElementById('mainQr'), { quality: 1 })
-        .then(dataUrl => this.downloadToComputer(dataUrl, 'QR_main'))
-    if (category.rooms) {
-      let out = []
-      roomTypes.map(roomType => {
-        roomType.dorms ?
-          //rooms with numbers assigned
-          roomType.dorms.map(dorm => {
-            for (let billingId = dorm.bedNumberStart; billingId < (dorm.bedNumberStart + roomType.beds); billingId++) {
-              out.push({
-                room: dorm.name,
-                billingId: billingId
-              })
-            }
-          })
-          :
-          // rooms with names
-          roomType.names.map(billingId =>
-            out.push({
-              billingId: billingId
-            })
-          )
-      })
-      out.map(item => {
-        domtoimage.toJpeg(document.getElementById(`billingId_${item.billingId}`), { quality: 1 })
-          .then(dataUrl => this.downloadToComputer(dataUrl, `QR_${item.billingId}`))
-      })
-    }
+    const { list, common } = this.props;
+    list.map(item => {
+      domtoimage.toJpeg(document.getElementById(`billingId_${item.billingId}`), { quality: 1 })
+        .then(dataUrl => this.downloadToComputer(dataUrl, item.billingId ? 'QR_main' : `QR_${item.billingId}`))
+    })
   }
 
   downloadToComputer = (dataUrl, fileName) => {

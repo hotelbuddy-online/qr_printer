@@ -27,11 +27,66 @@ export class QrCodesPrinter extends Component {
     console.log(name, value);
     this.setState({
       [name]: value
-    })
+    }, () =>
+        this.makeList()
+    )
   }
 
+  makeList = () => {
+    const { common } = this.props;
+    const { category } = this.state;
+    const { venue } = common;
+    const { roomTypes } = venue;
+
+    var categoryObj, optionObj
+    if (category) {
+      categoryObj = printing.filter(item => item.name === category)[0];
+    }
+
+    let out = []
+
+    if (!category) return null;
+    if (categoryObj.main)
+      out.push({
+        main: true,
+        room: null,
+        billingId: null
+      })
+
+    if (categoryObj.rooms) {
+      roomTypes.map(roomType => {
+        roomType.dorms ?
+          //rooms with numbers assigned
+          roomType.dorms.map(dorm => {
+            for (let billingId = dorm.bedNumberStart; billingId < (dorm.bedNumberStart + roomType.beds); billingId++) {
+              out.push({
+                room: dorm.name,
+                billingId: billingId
+              })
+            }
+          })
+          :
+          // rooms with names
+          roomType.names.map(billingId =>
+            out.push({
+              billingId: billingId
+            })
+          )
+      })
+
+    }
+    this.setState({
+      list: out
+    })
+    console.log('list', out)
+    // out.map(item => {
+    //   domtoimage.toJpeg(document.getElementById(`billingId_${item.billingId}`), { quality: 1 })
+    //     .then(dataUrl => this.downloadToComputer(dataUrl, `QR_${item.billingId}`))
+    // })
+  }
+  // }
   render() {
-    const { category, option, paperSize, itemSize } = this.state;
+    const { category, option, list, paperSize, itemSize } = this.state;
     const { common } = this.props;
     var categoryObj, optionObj
     if (category) {
@@ -39,7 +94,7 @@ export class QrCodesPrinter extends Component {
     }
     if (option)
       optionObj = categoryObj.options.filter(item => item.name === option)[0];
-   return (
+    return (
       <div className="staff-qr-codes-printer vertical layout center">
         <FormControl variant="filled">
           {/* <InputLabel htmlFor="edit-language">{languageLbl}</InputLabel> */}
@@ -56,7 +111,7 @@ export class QrCodesPrinter extends Component {
         </FormControl>
 
         {category === 'justQrCodes' ?
-         []
+          []
           : <FormControl variant="filled">
             {/* <InputLabel htmlFor="edit-language">{languageLbl}</InputLabel> */}
             <Select className="selects"
@@ -77,6 +132,7 @@ export class QrCodesPrinter extends Component {
           content={() => this.componentRef}
         />
         <QrCodes ref={el => (this.componentRef = el)}
+          list={list}
           category={categoryObj}
           optionObj={optionObj}
         />
