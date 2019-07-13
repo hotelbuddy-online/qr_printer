@@ -1,3 +1,3 @@
-export { default as QrCode } from './QrCode';
-export { default as QrCodes } from './QrCodes';
-export { default as QrCodesPrinter } from './QrCodesPrinter';
+export { default as QrCode } from './settings/qrCodes/QrCode';
+export { default as QrCodes } from './settings/qrCodes/QrCodes';
+export { default as QrCodesPrinter } from './settings/qrCodes/QrCodesPrinter';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactToPrint from 'react-to-print';
-import { QrCodes } from '../..';
+import { QrCodes } from '../../';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ export class QrCodesPrinter extends Component {
 
   state = {
     category: null,  // just_codes | main_code | rooms_or_beds
-    option: null,    // reception,restaurant  | keyfobs | 
+    option: null,    // reception,restaurant  | keyfobs |
     paperSize: null,  // A4 | A5 | Letter | half Letter | Legal | half Legal
     itemSize: null, // full | half | credit card | 50mm x 50mm
   }

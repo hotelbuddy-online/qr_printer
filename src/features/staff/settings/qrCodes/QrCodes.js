@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../guests/redux/actions';
-import { QrCode } from '../..';
+import { QrCode } from '../../';
 import { Typography, Button } from '@material-ui/core';
 import { LoadingScreen } from '../../../common';
 import domtoimage from 'dom-to-image';
@@ -32,7 +32,7 @@ export class QrCodes extends Component {
     if (!venue) return <LoadingScreen />
     const { $key: venueId, roomTypes } = venue;
     const { saveToComputer: saveToComputerLbl } = strings[common.language];
-  
+
     return (
       <div className="staff-qr-codes vertical layout center">
 
@@ -47,7 +47,7 @@ export class QrCodes extends Component {
 
         {
           category && category.main ?
-            <div id="mainQr">
+            <div id="mainQr" className="code">
               <QrCode
                 venueId={venueId}
               />
@@ -70,7 +70,7 @@ export class QrCodes extends Component {
                           out.push(billingId)
                         }
                         return (out.map(outId =>
-                          <div id={`billingId_${outId}`}>
+                          <div id={`billingId_${outId}`} className="code">
                             <QrCode
                               venueId={venueId}
                               billingId={outId}
@@ -81,7 +81,7 @@ export class QrCodes extends Component {
                       :
                       // rooms with names
                       roomType.names.map(billingId =>
-                        <div id={`billingId_${billingId}`}>
+                        <div id={`billingId_${billingId}`} className="code">
                           <QrCode key={billingId}
                             venueId={venueId}
                             billingId={billingId}
