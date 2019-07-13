@@ -1,0 +1,9 @@
+{
+  "appType": "rekit-react",
+  "rekitTest": true,
+  "exclude": [
+    ".*"
+  ],
+  "include": [],
+  "css": "less"
+}
