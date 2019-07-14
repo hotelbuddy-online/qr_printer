@@ -15,8 +15,39 @@ export class QrCodes extends Component {
     actions: PropTypes.object.isRequired,
   };
 
+  renderTemplate = item => {
+     const { template } = this.props;
+     const { overlays, viewer } = template;
+
+    return <div className="relative">
+      <div className="absolute">
+        {viewer === 'pdf' ?
+          <span>pdf</span>
+          : []}
+        {viewer === 'image' ?
+          <span>image</span>
+          : []}
+      </div>
+      {overlays.map(overlay => this.renderOverlay(overlay))}
+    </div>
+  }
+
+  renderOverlay = overlay => {
+    const { x1, x2, y1, y2, type } = overlay;
+    const width = x2 - x1, height = y2 - y1;
+    return (
+      <div className="absolute" style={{ left: x1, top: y1, width: width, height: height }}>
+        {type === 'logo' ?
+          <span>logo</span>
+          : []}
+        {type === 'qrCode' ?
+          <span>qr code</span>
+          : []}
+      </div>)
+  }
+
   render() {
-    const { common, list, category, optionObj } = this.props;
+    const { common, list, category, template } = this.props;
     const { venue } = common;
     if (!list) return <LoadingScreen />
     const { $key: venueId, roomTypes } = venue;
@@ -36,15 +67,18 @@ export class QrCodes extends Component {
 
         <div className="horizontal layout wrap">
           {list.map(item =>
-            <div className="wrapper vertical layout">
-              <div id={`billingId_${item.billingId}`} className="code">
-                <QrCode
-                  venueId={venueId}
-                  billingId={item.billingId}
-                />
+            template ?
+              this.renderTemplate(item)
+              : <div className="wrapper vertical layout">
+                <div id={`billingId_${item.billingId}`} className="code">
+                  <QrCode
+                    venueId={venueId}
+                    billingId={item.billingId}
+                  />
+                </div>
+                <Typography variant="body2">{item.billingId}</Typography>
               </div>
-              <Typography variant="body2">{item.billingId}</Typography>
-            </div>
+
           )}
         </div>
       </div>

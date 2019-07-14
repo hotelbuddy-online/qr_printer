@@ -93,7 +93,7 @@ export class QrCodesPrinter extends Component {
 
     const categoryObj = category ? printing.filter(item => item.name === category)[0] : null;
     const optionObj = option ? categoryObj.options.filter(item => item.name === option)[0] : null;
-    const templateObj = template ? optionObj.templates.filter(item => item.name === template)[0] : null;
+    const templateObj = optionObj && template ? optionObj.templates.filter(item => item.name === template)[0] : null;
     return (
       <div className="staff-qr-codes-printer vertical layout center">
         <FormControl variant="filled">
