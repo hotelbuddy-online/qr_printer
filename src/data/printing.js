@@ -14,7 +14,7 @@ export default [
                 templates: [
                     {
                         name: 'reception summary - english',
-                        require: 'reception summary - english.pdf',
+                        file: 'reception summary - english.pdf',
                         sizes: ['A4', 'A5', 'letter', 'half letter'],
                         viewer: 'pdf',
                         overlays: [
@@ -36,7 +36,7 @@ export default [
                     },
                     {
                         name: 'reception summary - vietnamese',
-                        require: 'reception summary - vietnamese',
+                        file: 'reception summary - vietnamese',
                         overlays: [
                             {
                                 type: 'logo',
@@ -68,7 +68,7 @@ export default [
                 templates: [
                     {
                         name: 'reception summary - english',
-                        require: 'reception summary - english.pdf',
+                        file: 'reception summary - english.pdf',
                         viewer: 'pdf',
                         overlays: [
                             {
@@ -94,7 +94,7 @@ export default [
                 templates: [
                     {
                         name: 'bedside 1 - english',
-                        require: 'bedside 1 - english.png',
+                        file: 'bedside 1 - english.png',
                         sizes: ['custom'],
                         width: 6,
                         height: 12,

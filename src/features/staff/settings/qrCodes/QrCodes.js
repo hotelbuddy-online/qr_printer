@@ -8,6 +8,7 @@ import { Typography, Button } from '@material-ui/core';
 import { LoadingScreen } from '../../../common';
 import domtoimage from 'dom-to-image';
 import { strings } from '../../../../data';
+import { Document, Page } from 'react-pdf';
 
 export class QrCodes extends Component {
   static propTypes = {
@@ -17,12 +18,17 @@ export class QrCodes extends Component {
 
   renderTemplate = item => {
      const { template } = this.props;
-     const { overlays, viewer } = template;
+     const { overlays, viewer, file } = template;
 
     return <div className="relative">
       <div className="absolute">
         {viewer === 'pdf' ?
-          <span>pdf</span>
+          <Document
+          file={require(`../../../../images/templates/${file}`)}
+        //  onLoadSuccess={this.onDocumentLoadSuccess}
+        >
+          <Page pageNumber={1} />
+        </Document>
           : []}
         {viewer === 'image' ?
           <span>image</span>
