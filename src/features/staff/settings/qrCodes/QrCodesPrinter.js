@@ -18,6 +18,7 @@ export class QrCodesPrinter extends Component {
   state = {
     category: null,  // just_codes | main_code | rooms_or_beds
     option: null,    // reception,restaurant  | keyfobs |
+    template: null,    //
     paperSize: null,  // A4 | A5 | Letter | half Letter | Legal | half Legal
     itemSize: null, // full | half | credit card | 50mm x 50mm
   }
@@ -27,9 +28,10 @@ export class QrCodesPrinter extends Component {
     console.log(name, value);
     this.setState({
       [name]: value
-    }, () =>
+    }, () => {
+      if (name === 'category')
         this.makeList()
-    )
+    })
   }
 
   makeList = () => {
@@ -86,14 +88,12 @@ export class QrCodesPrinter extends Component {
   }
   // }
   render() {
-    const { category, option, list, paperSize, itemSize } = this.state;
+    const { category, option, template, list, paperSize, itemSize } = this.state;
     const { common } = this.props;
-    var categoryObj, optionObj
-    if (category) {
-      categoryObj = printing.filter(item => item.name === category)[0];
-    }
-    if (option)
-      optionObj = categoryObj.options.filter(item => item.name === option)[0];
+
+    const categoryObj = category ? printing.filter(item => item.name === category)[0] : null;
+    const optionObj = option ? categoryObj.options.filter(item => item.name === option)[0] : null;
+    const templateObj = template ? optionObj.templates.filter(item => item.name === template)[0] : null;
     return (
       <div className="staff-qr-codes-printer vertical layout center">
         <FormControl variant="filled">
@@ -127,6 +127,23 @@ export class QrCodesPrinter extends Component {
           </FormControl>
         }
 
+        {optionObj === null ?
+          []
+          : <FormControl variant="filled">
+            {/* <InputLabel htmlFor="edit-language">{languageLbl}</InputLabel> */}
+            <Select className="selects"
+              value={template}
+              onChange={this.handleChangeSelect}
+              input={<FilledInput name="template" />}
+            > {optionObj && optionObj.templates.map((templ, index) =>
+              <MenuItem value={templ.name} classes={{ root: '' }} key={index}>
+                <Typography variant="subtitle1">{templ.name}</Typography>
+              </MenuItem>
+            )}
+            </Select>
+          </FormControl>
+        }
+
         <ReactToPrint
           trigger={() => <a href="#">Print this out!</a>}
           content={() => this.componentRef}
@@ -134,7 +151,8 @@ export class QrCodesPrinter extends Component {
         <QrCodes ref={el => (this.componentRef = el)}
           list={list}
           category={categoryObj}
-          optionObj={optionObj}
+          options={optionObj}
+          template={templateObj}
         />
       </div>
     );

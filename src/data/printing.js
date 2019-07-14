@@ -15,6 +15,7 @@ export default [
                 templates: [
                     {
                         name: 'reception summary - english',
+                        require: 'reception summary - english',
                         overlays: [
                             {
                                 type: 'logo',
@@ -32,7 +33,26 @@ export default [
                             },
                         ]
                     },
-                    'reception summary - vietnamese',
+                     {
+                        name: 'reception summary - vietnamese',
+                        require: 'reception summary - vietnamese',
+                        overlays: [
+                            {
+                                type: 'logo',
+                                x1: 20,
+                                y1: 20,
+                                x2: 100,
+                                y2: 100
+                            },
+                            {
+                                type: 'qrCode',
+                                x1: 220,
+                                y1: 220,
+                                x2: 300,
+                                y2: 300
+                            },
+                        ]
+                    },
                 ]
             }
         ]

@@ -37,12 +37,13 @@ export class QrCodes extends Component {
         <div className="horizontal layout wrap">
           {list.map(item =>
             <div className="wrapper vertical layout">
-              <div id="mainQr" className="code">
-                <QrCode id={`billingId_${item.billingId}`}
+              <div id={`billingId_${item.billingId}`} className="code">
+                <QrCode
                   venueId={venueId}
                   billingId={item.billingId}
                 />
               </div>
+              <Typography variant="body2">{item.billingId}</Typography>
             </div>
           )}
         </div>
