@@ -131,7 +131,6 @@ export default {
         staffSetupMessage: 'Please wait a few seconds while we set you up',
         selectRoom: 'select room',
         roomType: 'room type',
-        scheduler: 'scheduler',
         addJob: 'add job',
         jobName: 'Job name',
         at: 'at',

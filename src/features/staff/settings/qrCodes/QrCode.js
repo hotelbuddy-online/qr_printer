@@ -51,7 +51,7 @@ export default class QrCode extends Component {
           bgColor="#FFFFFF"
           fgColor="#000000"
           level="Q"
-          style={{ width: 130, height:130 }}
+        //   style={{ width: 130, height:130 }}
           value={url}
         />
         {/* <p>{url}</p> */}

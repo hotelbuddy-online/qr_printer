@@ -14,23 +14,24 @@ export default [
                 templates: [
                     {
                         name: 'reception summary - english',
-                        file: 'reception summary - english.pdf',
+                        file: 'reception summary - english.png',
                         sizes: ['A4', 'A5', 'letter', 'half letter'],
-                        viewer: 'pdf',
+                        width: 858,
+                        viewer: 'image',
                         overlays: [
                             {
                                 type: 'logo',
-                                x1: 20,
-                                y1: 20,
-                                x2: 100,
-                                y2: 100
+                                left: 215,
+                                top: 20,
+                                width: 415,
+                                height: 415,
                             },
                             {
                                 type: 'qrCode',
-                                x1: 220,
-                                y1: 220,
-                                x2: 300,
-                                y2: 300
+                                left: 288,
+                                top: 876,
+                                width: 255,
+                                height: 255,
                             },
                         ]
                     },
