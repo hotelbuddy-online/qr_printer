@@ -41,17 +41,17 @@ export default [
                         overlays: [
                             {
                                 type: 'logo',
-                                x1: 20,
-                                y1: 20,
-                                x2: 100,
-                                y2: 100
+                                left: 215,
+                                top: 20,
+                                width: 415,
+                                height: 415,
                             },
                             {
                                 type: 'qrCode',
-                                x1: 220,
-                                y1: 220,
-                                x2: 300,
-                                y2: 300
+                                left: 215,
+                                top: 20,
+                                width: 415,
+                                height: 415,
                             },
                         ]
                     },
@@ -68,23 +68,25 @@ export default [
                 sizes: ['credit card'],
                 templates: [
                     {
-                        name: 'reception summary - english',
-                        file: 'reception summary - english.pdf',
-                        viewer: 'pdf',
+                        name: 'keycard logo and qr',
+                        width: 200,
+                        height: 120,
+                        // file: 'reception summary - english.pdf',
+                        // viewer: 'pdf',
                         overlays: [
                             {
                                 type: 'logo',
-                                x1: 20,
-                                y1: 20,
-                                x2: 100,
-                                y2: 100
+                                left: 20,
+                                top: 20,
+                                width: 100,
+                                height: 90,
                             },
                             {
                                 type: 'qrCode',
-                                x1: 220,
-                                y1: 220,
-                                x2: 300,
-                                y2: 300
+                                left: 110,
+                                top: 20,
+                                width: 80,
+                                height: 80,
                             },
                         ]
                     }

@@ -18,9 +18,13 @@ export class QrCodes extends Component {
 
     renderTemplate = item => {
         const { template } = this.props;
-        const { overlays, viewer, file, width } = template;
-        const fileSrc = require(`../../../../images/templates/${file}`)
-        return <div className="full-width relative">
+        const { overlays, viewer, file, width, height } = template;
+        //  const { width, height } = template;
+        const styleObj = {};
+        if (width) styleObj.width = `${width}px`
+        if (height) styleObj.height = `${height}px`
+        const fileSrc = file ? require(`../../../../images/templates/${file}`) : null
+        return <div className="relative" style={styleObj}>
             <div className="absolute">
                 {viewer === 'pdf' ?
                     <Document
@@ -59,7 +63,7 @@ export class QrCodes extends Component {
     render() {
         const { common, list, category, template } = this.props;
         if (!template) return null;
-        const {width } = template;
+
         const { venue } = common;
         if (!list) return <LoadingScreen />
         const { $key: venueId, roomTypes } = venue;
@@ -77,7 +81,7 @@ export class QrCodes extends Component {
                     >{saveToComputerLbl}</Button>
                     : []}
 
-                <div className="full-height horizontal layout wrap"  style={{ width: `${width}px` }}>
+                <div className="full-height horizontal layout wrap">
                     {list.map(item =>
                         template ?
                             this.renderTemplate(item)
