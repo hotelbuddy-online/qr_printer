@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import { openUploadWidget } from '../../common/cloudinaryService';
+import { default as Config } from '../../config/cloudinary_config';
 
 export default class CloudinaryUpload extends Component {
     static propTypes = {
@@ -8,7 +9,7 @@ export default class CloudinaryUpload extends Component {
     };
 
     uploadImageWithCloudinary() {
-        const uploadOptions = { tags: 'myphotoalbum', ...this.context };
+        const uploadOptions = { tags: 'myphotoalbum', ...Config };
         openUploadWidget(uploadOptions, (error, photos) => {
             if (!error) {
                 this.props.onPhotosUploaded(photos);
@@ -21,7 +22,7 @@ export default class CloudinaryUpload extends Component {
     render() {
         return (
             <div className="common-cloudinary-upload">
-                <Button onClick={this.uploadImageWithCloudinary.bind(this)} ></Button>
+                <Button onClick={this.uploadImageWithCloudinary.bind(this)} >open upload</Button>
             </div>
         );
     }

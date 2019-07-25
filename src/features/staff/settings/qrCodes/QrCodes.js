@@ -24,7 +24,9 @@ export class QrCodes extends Component {
         var out = Array.from(Array(numberRows))
         return out.map((row, index) => {
             const pageBreakAfter = index > 0 && ((index + 1) % rowsPerPage === 0)
-            return <div className={`horizontal layout ${pageBreakAfter ? 'pageBreak' : ''}`}>
+            const pageBreak = index > 0 && (index % rowsPerPage === 0)
+            return <div className={`horizontal layout ${pageBreakAfter ? 'pageBreakAfter' : ''} ${pageBreak ?
+            'pageBreak':''}`}>
                 {this.renderRow(index, list, itemsPerRow)}
             </div>
         })
