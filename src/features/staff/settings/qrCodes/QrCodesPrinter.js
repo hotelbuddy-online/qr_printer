@@ -6,13 +6,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../guests/redux/actions';
 import { FormControl, Select, FilledInput, MenuItem, Typography, Button } from '@material-ui/core';
-import printing from '../../../../data/printing';
-import { strings } from '../../../../data';
+import { printing, paperSizes, strings } from '../../../../data';
+import TestBreak from './TestBreak';
+import TemplateDetails from './TemplateDetails';
+
+const dpmm = 11.811 // dots per mm at 300dpi
 
 export class QrCodesPrinter extends Component {
     static propTypes = {
-        guests: PropTypes.object.isRequired,
-        actions: PropTypes.object.isRequired,
+        guests: PropTypes.object,
+        actions: PropTypes.object,
     };
 
     state = {
@@ -26,12 +29,17 @@ export class QrCodesPrinter extends Component {
     handleChangeSelect = (e) => {
         const { name, value } = e.target;
         console.log(name, value);
-        this.setState({
-            [name]: value
-        }, () => {
-            if (name === 'category')
-                this.makeList()
-        })
+        if (value === 'addTemplate')
+            this.setState({
+                addTemplate: true
+            })
+        else
+            this.setState({
+                [name]: value
+            }, () => {
+                if (name === 'category')
+                    this.makeList()
+            })
     }
 
     makeList = () => {
@@ -63,7 +71,8 @@ export class QrCodesPrinter extends Component {
                         for (let billingId = dorm.bedNumberStart; billingId < (dorm.bedNumberStart + roomType.beds); billingId++) {
                             out.push({
                                 room: dorm.name,
-                                billingId: billingId
+                                billingId: billingId,
+                                dorm: true
                             })
                         }
                     })
@@ -71,7 +80,7 @@ export class QrCodesPrinter extends Component {
                     // rooms with names
                     roomType.names.map(billingId =>
                         out.push({
-                            billingId: billingId
+                            room: billingId
                         })
                     )
             })
@@ -88,12 +97,22 @@ export class QrCodesPrinter extends Component {
     }
     // }
     render() {
-        const { category, option, template, list, paperSize, itemSize } = this.state;
-        const { common } = this.props;
+        const { category, option, template, list, addTemplate } = this.state;
 
+        const { common } = this.props;
         const categoryObj = category ? printing.filter(item => item.name === category)[0] : null;
         const optionObj = option ? categoryObj.options.filter(item => item.name === option)[0] : null;
         const templateObj = optionObj && template ? optionObj.templates.filter(item => item.name === template)[0] : null;
+        var { size } = this.state;
+        if (templateObj && templateObj.sizes && templateObj.sizes.length === 1) size = templateObj.sizes[0]
+        // var width, height
+        // if (templateObj && templateObj.sizes && templateObj.sizes.length === 1) {
+        //     console.log('inside here')
+        //     const paper = paperSizes.filter(item => item.name === templateObj.sizes[0])[0]
+        //     width = paper.width;
+        //     height = paper.height;
+        // }
+
         return (
             <div className="staff-qr-codes-printer fit vertical layout center">
                 <div className="horizontal layout center">
@@ -136,23 +155,52 @@ export class QrCodesPrinter extends Component {
                                 value={template}
                                 onChange={this.handleChangeSelect}
                                 input={<FilledInput name="template" />}
-                            > {optionObj && optionObj.templates.map((templ, index) =>
-                                <MenuItem value={templ.name} classes={{ root: '' }} key={index}>
+                            > {optionObj && optionObj.templates.concat([{
+                                name: 'add template',
+                                add: true
+                            }]).map((templ, index) =>
+                                <MenuItem value={templ.add ? 'addTemplate' : templ.name} classes={{ root: '' }} key={index}>
                                     <Typography variant="subtitle1">{templ.name}</Typography>
                                 </MenuItem>
                             )}
                             </Select>
                         </FormControl>
                     }
+
+                    {templateObj && templateObj.sizes && templateObj.sizes.length > 1 ?
+                        <FormControl variant="filled">
+                            {/* <InputLabel htmlFor="edit-language">{languageLbl}</InputLabel> */}
+                            <Select className="selects"
+                                value={size}
+                                onChange={this.handleChangeSelect}
+                                input={<FilledInput name="size" />}
+                            > {templateObj.sizes.map((size, index) =>
+                                <MenuItem value={size} classes={{ root: '' }} key={index}>
+                                    <Typography variant="subtitle1">{size}</Typography>
+                                </MenuItem>
+                            )}
+                            </Select>
+                        </FormControl>
+                        : []
+                    }
                 </div>
 
                 <ReactToPrint
                     trigger={() => <a href="#">Print this out!</a>}
                     content={() => this.componentRef}
+                // content={() => this.componentTestRef}
                 />
+
+                {addTemplate ?
+                    <TemplateDetails />
+                    : []}
+
                 <div className="full-width flex">
                     <QrCodes ref={el => (this.componentRef = el)}
                         list={list}
+                        size={size}
+                        // width={width}
+                        // height={height}
                         category={categoryObj}
                         options={optionObj}
                         template={templateObj}

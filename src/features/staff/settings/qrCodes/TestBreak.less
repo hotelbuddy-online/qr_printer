@@ -1,0 +1,17 @@
+@import '../../../../styles/mixins';
+
+.staff-settings-qr-codes-test-break {
+
+   @media print {
+
+    tr {
+        display: block;
+    }
+
+    .page-break {
+        break-after: always !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+    }
+}
+}
