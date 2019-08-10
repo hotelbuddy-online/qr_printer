@@ -45,8 +45,16 @@
         { item: "We have a dedicated travel desk that can arrange tours, tickets and excursions to many wonderful destinations around Vietnam at all budget levels. Please click links to the left or visit the website at http://chienhostel.vn. Book tours before arrival and receive a free night with 1 day motorbike rental at Chien." },
         { item: "We can also provide transportation to pick you up from the airport at the competitive price of $18 (from the airport to Hanoi center is 45 minutes). If you would like this, please send us your flight details (flight number and arrival time) and we will book a car for you." },
         { item: "Again, we look forward to welcoming you to Chien Hostel and please do not hesitate to  contact us if we can be of any further assistance." },
-        { item: "- Email: chienhostel@gmail.com<br>- Facebook: www.facebook.com/chienhostel/<br>- Whatsapp: (+84) 979 800 976<br>- Phone: (+84) 2439-329 329 or (+84) 979 800 976<br>" },
-        { item: "Kind regards<br>CHIEN HOSTEL" },
+      ],
+      "contacts": [
+        { item: "- Email: chienhostel@gmail.com" },
+        { item: "- Facebook: www.facebook.com/chienhostel/" },
+        { item: "- Whatsapp: (+84) 979 800 976" },
+        { item: "- Phone: (+84) 2439-329 329 or (+84) 979 800 976" }
+      ],
+      signoff: [
+        { item: "Kind regards" },
+        { item: "CHIEN HOSTEL" }
       ]
     };
 
@@ -98,6 +106,16 @@
                   {{item}}
               </div>
             {{/content}}
+            <div style="margin: 0 20px 80px 20px;" class="textDiv">
+              {{#contacts}}
+                  {{item}}<br>
+              {{/contacts}}
+            </div>
+            <div style="margin: 0 20px 80px 20px;" class="textDiv">
+              {{#signoff}}
+                  {{item}}<br>
+              {{/signoff}}
+            </div>
           </td>
       </tr>
       
