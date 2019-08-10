@@ -1,0 +1,118 @@
+<div id="output">
+
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/1.2.0/mustache.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    var template = $('#test').html();
+    var output = $('#output');
+
+    var data = {
+      "subject": "Chien Hostel - Booking Confirmation [conf number]",
+      "tours": [
+        {
+          "name": "Halong Bay",
+          url: "http://chienhostel.vn/tours/halong/",
+          "src": "http://chienhostel.vn/wp-content/uploads/2019/08/halong-bay-220px.jpg"
+        },
+        {
+          "name": "Ha Giang",
+          url: "http://chienhostel.vn/tours/hagiang/",
+          "src": "http://chienhostel.vn/wp-content/uploads/2019/08/halong-small.png"
+        },
+        {
+          "name": "Mai Chau",
+          url: "http://chienhostel.vn/tours/mai-chau/",
+          "src": "http://chienhostel.vn/wp-content/uploads/2019/08/mai-chau-220px.jpg"
+        },
+        {
+          "name": "Sapa",
+          url: "http://chienhostel.vn/tours/sapa/",
+          "src": "http://chienhostel.vn/wp-content/uploads/2019/08/sapa-220px.jpg"
+        },
+        {
+          "name": "Southern",
+          url: "http://chienhostel.vn/tours/southern-tour-package/",
+          "src": "http://chienhostel.vn/wp-content/uploads/2019/08/southern-220.jpg"
+        }
+      ],
+      "content": [
+        { item: "Dear [first name] [last name]," },
+        { item: "Thank you so much for choosing Chien Hostel. We are delighted to confirm your reservation for [nights] nights. Your confirmation number is [conf number]." },
+        { item: "We have a dedicated travel desk that can arrange tours, tickets and excursions to many wonderful destinations around Vietnam at all budget levels. Please click links to the left or visit the website at http://chienhostel.vn. Book tours before arrival and receive a free night with 1 day motorbike rental at Chien." },
+        { item: "We can also provide transportation to pick you up from the airport at the competitive price of $18 (from the airport to Hanoi center is 45 minutes). If you would like this, please send us your flight details (flight number and arrival time) and we will book a car for you." },
+        { item: "Again, we look forward to welcoming you to Chien Hostel and please do not hesitate to  contact us if we can be of any further assistance." },
+        { item: "- Email: chienhostel@gmail.com<br>- Facebook: www.facebook.com/chienhostel/<br>- Whatsapp: (+84) 979 800 976<br>- Phone: (+84) 2439-329 329 or (+84) 979 800 976<br>" },
+        { item: "Kind regards<br>CHIEN HOSTEL" },
+      ]
+    };
+
+    var result = Mustache.render(template, data);
+
+    output.append(result);
+
+  });
+</script>
+
+<script type="text/template" id="test">
+  <table class="tg" style="
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: #aabcfe;
+  font-family: Arial, sans-serif;
+  background-color: black;
+">
+    <tbody>
+      <tr>
+          <th colspan="2" style="font-size: 48px;
+          font-weight: normal;
+          padding: 10px 5px;
+          border: 1px solid #aabcfe;
+          color: #039;
+          background-color: #b9c9fe;
+              ">{{subject}}</th>
+      </tr>
+      <tr>
+          <td style="border: 1px solid #aabcfe; background-color: white; width: 40%; max-width: 220px;" class="ad">
+              <a style="width: 100%; text-align: center;; text-decoration: none;  color: white;  margin: 5px;"
+                  href="http://chienhostel.vn/tours/">
+                  <img style="width: 50%;
+                  margin-left: 25%;
+                  height: auto;" src="https://media.giphy.com/media/zNaC251b9m9zy/giphy.gif"/>
+
+                  <h1 style="padding: 0 6px 0 6px; font-size: 2em; color:black;">Book a tour before arrival and receive promotion price, a
+                      free night and 1 day motorbike rental!</h1>
+              </a>
+          </td>
+          <td style="background-color: #000000;
+          color: #ffffff;
+          text-align: left;
+          vertical-align: top;
+          font-size: 2em;" rowspan="6">
+            {{#content}}
+              <div style="margin: 0 20px 80px 20px;" class="textDiv">
+                  {{item}}
+              </div>
+            {{/content}}
+          </td>
+      </tr>
+      
+      {{#tours}}
+      <tr>
+        <td style="border: 1px solid #aabcfe;" class="ad">
+            <a style="background-color: black; color: white; text-align: center; background-color: gray; text-decoration: none;  color: white;  margin: 5px;"
+                href="{{url}}">
+                <h1 style="padding: 0 6px 0 6px;">{{name}}</h1>
+                <img style="width:100%"
+                    src="{{src}}">
+            </a>
+        </td>
+      </tr>
+      {{/tours}}
+    </tbody>
+  </table>    
+</script>
